@@ -67,6 +67,10 @@ function TableRow({ name, link, desc, leverage, spread, overnight, type }) {
 function Introduction() {
   return (
     <div className="Introduction_container">
+      {/* <div className ="image-box">
+        <img src = "/item1.png"/>
+      </div> */}
+
       <h1>Giao dịch tài sản từ thị trường toàn cầu</h1>
       <h2>
         Tận dụng mọi cơ hội với những tài sản phổ biến nhất thế giới.

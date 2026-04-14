@@ -1,13 +1,24 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import { BrowserRouter } from "react-router-dom"
-import './styles/index.css'
-import HomePage from './pages/HomePage.jsx'
+import ReactDOM from "react-dom/client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "./index.css";
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
+
+import HomePage from "./pages/HomePage";
+import Login_Register from "./pages/Login_Register";
+import UserPage from "./pages/UserPage";
+import Header from "./pages/Header";
+import Sidebar from "./pages/Sidebar";
+
+function App() {
+  return (
     <BrowserRouter>
-      <HomePage />
+      <Routes>
+        <Route path="/" element={<HomePage />} /> 
+        <Route path="/Login_Register" element={<Login_Register />} />
+        <Route path="/UserPage" element={<UserPage />} />
+      </Routes>
     </BrowserRouter>
-  </StrictMode>,
-)
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);

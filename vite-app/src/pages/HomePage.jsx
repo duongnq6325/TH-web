@@ -2,7 +2,8 @@ import { useState } from 'react'
 import "../styles/HomePage.css";
 import { useNavigate } from "react-router-dom";
 import { FaShieldAlt, FaCheckCircle, FaHeadset, FaCreditCard } from "react-icons/fa";
-
+import { useEffect, useState } from "react";
+import axios from "axios";
 function Header() {
   return (
     <header>
@@ -64,11 +65,11 @@ function TableRow({ name, link, desc, leverage, spread, overnight, type }) {
   );
 }
 
-function Introduction() {
+function Introduction({ products }) {
   return (
     <div className="Introduction_container">
-      <div className ="image-box">
-        <img src = "/item1.png"/>
+      <div className="image-box">
+        <img src="/item1.png" />
       </div>
 
       <h1>Giao dịch tài sản từ thị trường toàn cầu</h1>
@@ -81,32 +82,25 @@ function Introduction() {
           <tr>
             <th>Công cụ Giao dịch</th>
             <th>Đòn bẩy</th>
-            <th>Biên độ trung bình</th>
-            <th>Miễn phí qua đêm</th>
-            <th></th>
+            <th>Biên độ</th>
+            <th>Giá hiện tại</th>
+            <th>Loại</th>
           </tr>
         </thead>
 
         <tbody>
-          <TableRow
-            name="XAU/USD"
-            link="https://www.exness.com/vi/commodities/xauusd"
-            desc="Vàng"
-            leverage="Tùy chỉnh"
-            spread="25.2"
-            overnight="Khả dụng"
-            type="Kim loại"
-          />
-
-          <TableRow
-            name="BTC/USD"
-            link="#"
-            desc="Bitcoin"
-            leverage="1:400"
-            spread="45.0"
-            overnight="Khả dụng"
-            type="Tiền điện tử"
-          />
+          {products.map((p) => (
+            <TableRow
+              key={p.productId}
+              name={p.symbol}
+              link="#"
+              desc={p.name}
+              leverage="1:100" // fake demo
+              spread="--"
+              overnight={`$${p.currentPrice}`}
+              type={p.category}
+            />
+          ))}
         </tbody>
       </table>
     </div>
@@ -114,15 +108,28 @@ function Introduction() {
 }
 
 export default function Background() {
-    const navigate = useNavigate(); 
-    return (
-        <div className="background-container">
-            <div className="BackGround_container">
-                <Header />
-                <MainContent navigate={navigate} />
-            </div>
+  const navigate = useNavigate(); 
+  const [products, setProducts] = useState([]);
 
-            <Introduction />
-        </div>
-    );
+  useEffect(() => {
+    axios.get("http://localhost:5000/api/product")
+      .then(res => setProducts(res.data))
+      .catch(err => console.log(err));
+  }, []);
+
+  return (
+    <div className="background-container">
+      <div className="BackGround_container">
+        <Header />
+        <MainContent navigate={navigate} />
+      </div>
+
+      <Introduction products={products} />
+    </div>
+  );
 }
+useEffect(() => {
+  axios.get("http://localhost:5000/api/product")
+    .then(res => setProducts(res.data))
+    .catch(err => console.log(err));
+}, []);

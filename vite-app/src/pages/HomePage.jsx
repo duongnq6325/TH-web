@@ -49,14 +49,18 @@ function MainContent({navigate}) {
   );
 }
 
-function TableRow({ name, link, desc, leverage, spread, overnight, type }) {
+function TableRow({ icon, name, link, desc, leverage, spread, overnight, type }) {
   return (
     <tr>
-        <td>
-            <a href={link}>{name}</a>
-            <br />
-            {desc}
+        <td className="symbol-cell">
+          <img src={icon} alt="" />
+
+          <div className="symbol-text">
+            <a href={link} className="symbol">{name}</a>
+            <span className="desc">{desc}</span>
+          </div>
         </td>
+
         <td>{leverage}</td>
         <td>{spread}</td>
         <td>{overnight}</td>
@@ -89,6 +93,7 @@ function Introduction({ products }) {
         </thead>
 
         <tbody>
+<<<<<<< HEAD
           {products.map((p) => (
             <TableRow
               key={p.productId}
@@ -101,6 +106,29 @@ function Introduction({ products }) {
               type={p.category}
             />
           ))}
+=======
+          <TableRow
+            icon="/gold16x16.svg"
+            name="XAU/USD"
+            link="https://www.exness.com/vi/commodities/xauusd"
+            desc="Vàng"
+            leverage="Tùy chỉnh"
+            spread="25.2"
+            overnight="Khả dụng"
+            type="Kim loại"
+          />
+
+          <TableRow
+            icon="/btc16x16.svg"
+            name="BTC/USD"
+            link="#"
+            desc="Bitcoin"
+            leverage="1:400"
+            spread="45.0"
+            overnight="Khả dụng"
+            type="Tiền điện tử"
+          />
+>>>>>>> 07ea238762462acc42c3aefe5d5565e124693ec1
         </tbody>
       </table>
     </div>

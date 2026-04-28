@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Login_Register.css";
 
@@ -8,34 +7,40 @@ export default function Login_Register() {
 
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: '',
-    country: ''
+    username: "",
+    email: "",
+    password: "",
+    country: "",
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const handleInputChange = (e) => {
     setFormData({
-        
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
 
     try {
-      const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
-      const payload = isLogin 
+      const endpoint = isLogin
+        ? "/api/auth/login"
+        : "/api/auth/register";
+
+      const payload = isLogin
         ? { email: formData.email, password: formData.password }
-        : { username: formData.username, email: formData.email, password: formData.password };
+        : {
+            username: formData.username,
+            email: formData.email,
+            password: formData.password,
+          };
 
       const response = await fetch(`http://localhost:5000${endpoint}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
 
@@ -43,18 +48,18 @@ export default function Login_Register() {
 
       if (response.ok) {
         if (isLogin) {
-          localStorage.setItem('token', data.token);
-          alert('Đăng nhập thành công!');
-          navigate("/"); // ✅ router chuẩn
+          localStorage.setItem("token", data.token);
+          alert("Đăng nhập thành công!");
+          navigate("/UserPage"); // chuyển trang sau login
         } else {
-          alert('Đăng ký thành công!');
+          alert("Đăng ký thành công!");
           setIsLogin(true);
         }
       } else {
-        setError(data.message || 'Có lỗi xảy ra');
+        setError(data.message || "Có lỗi xảy ra");
       }
     } catch (err) {
-      setError('Không thể kết nối đến server');
+      setError("Không thể kết nối đến server");
     }
   };
 
@@ -62,202 +67,123 @@ export default function Login_Register() {
     <div className="login-register-container">
 
       {/* LOGIN */}
-      <div className={`login-container ${isLogin ? '' : 'hidden'}`}> 
-        <article className="login-form">
-          <header>
-            <h1>Login</h1>
-          </header>
+      {isLogin && (
+        <div className="login-container">
+          <article className="login-form">
+            <header>
+              <h1>Login</h1>
+            </header>
 
-          <form onSubmit={handleSubmit}>
-            <input 
-              type="email" 
-              name="email" 
-              placeholder="Email"
-              value={formData.email}
-              onChange={handleInputChange}
-              required />
+            <form onSubmit={handleSubmit}>
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={handleInputChange}
+                required
+              />
 
-            <input 
-              type="password" 
-              name="password" 
-              placeholder="Password"
-              value={formData.password}
-              onChange={handleInputChange}
-              required />
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleInputChange}
+                required
+              />
 
-            <button type="submit">Login</button>
-          </form>
+              <button type="submit">Login</button>
+            </form>
 
-          <p>Don't have an account?</p>
+            <p>Don't have an account?</p>
 
-          {/* ✅ GIỮ <a> để giữ CSS */}
-          <a href="#" onClick={(e) => {
-            e.preventDefault();
-            setIsLogin(false);
-          }}>
-            Register
-          </a>
-        </article>
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                setIsLogin(false);
+              }}
+            >
+              Register
+            </a>
+          </article>
 
-        <aside className="welcome-message-login">
-          <h1>WELCOME BACK!</h1>
-          <p>We are happy to have you with us again.</p>
-        </aside>
-      </div>
+          <aside className="welcome-message-login">
+            <h1>WELCOME BACK!</h1>
+            <p>We are happy to have you with us again.</p>
+          </aside>
+        </div>
+      )}
 
       {/* REGISTER */}
-      <div className={`register-container ${!isLogin ? '' : 'hidden'}`}>
-        <article className="register-form">
-          <header>
-            <h1>Register</h1>
-          </header>
+      {!isLogin && (
+        <div className="register-container">
+          <article className="register-form">
+            <header>
+              <h1>Register</h1>
+            </header>
 
-          <form onSubmit={handleSubmit}>
-            <input 
-              type="text" 
-              name="username" 
-              placeholder="Username"
-              value={formData.username}
-              onChange={handleInputChange}
-              required />
+            <form onSubmit={handleSubmit}>
+              <input
+                type="text"
+                name="username"
+                placeholder="Username"
+                value={formData.username}
+                onChange={handleInputChange}
+                required
+              />
 
-            <input 
-              type="email" 
-              name="email" 
-              placeholder="Email"
-              value={formData.email}
-              onChange={handleInputChange}
-              required />
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={handleInputChange}
+                required
+              />
 
-            <input 
-              type="password" 
-              name="password" 
-              placeholder="Password"
-              value={formData.password}
-              onChange={handleInputChange}
-              required />
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleInputChange}
+                required
+              />
 
-            <select name="country" value={formData.country} onChange={handleInputChange} required>
-              <option value="">Chọn quốc gia</option>
-              <option value="VietNam">Việt Nam</option>
-              <option value="USA">Hoa Kỳ</option>
-            </select>
+              <select
+                name="country"
+                value={formData.country}
+                onChange={handleInputChange}
+                required
+              >
+                <option value="">Chọn quốc gia</option>
+                <option value="VietNam">Việt Nam</option>
+                <option value="USA">Hoa Kỳ</option>
+              </select>
 
-            <button type="submit">Register</button>
-          </form>
+              <button type="submit">Register</button>
+            </form>
 
-          {/* ✅ GIỮ style */}
-          <a href="#" onClick={(e) => {
-            e.preventDefault();
-            setIsLogin(true);
-          }}>
-            Login
-          </a>
-        </article>
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                setIsLogin(true);
+              }}
+            >
+              Login
+            </a>
+          </article>
 
-        <aside className="welcome-message-register">
-          <h1>WELCOME!</h1>
-        </aside>
+          <aside className="welcome-message-register">
+            <h1>WELCOME!</h1>
+          </aside>
 
-        {error && <p className="error-message">{error}</p>}
-      </div>
-
-    </div>
-  )
-=======
-import React, {useState} from 'react'
-import "../styles/Login_Register.css";
-import { useNavigate } from "react-router-dom";
-
-function Login({onSwitch}) {
-    const navigate = useNavigate();
-    return (
-        <form className="login-container"> 
-            <article className="login-form">
-                <header>
-                    <h1>Login</h1>
-                </header>
-
-                <input 
-                    type="email" 
-                    name="email" 
-                    placeholder="Email"
-                    required 
-                />
-
-                <input 
-                    type="password" 
-                    name="password" 
-                    placeholder="Password"
-                    required 
-                />
-
-                <button type = "submit" onClick={() => navigate("/UserPage")}>Login</button>
-                <p>Don't have an account?</p>
-                <a href="#" onClick={onSwitch}>Register</a>
-            </article>
-
-            <aside className="welcome-message-login">
-                <h1>WELCOME BACK!</h1>
-                <p>We are happy to have you with us again. If you need anything, we are here to help.</p>
-            </aside>
-        </form>
-    );
-}
-
-function Register({onSwitch}) {
-    return (
-        <form className="register-container">
-            <article className="register-form">
-                <header>
-                    <h1>Register</h1>
-                </header>
-
-                <select name="country" className="country" required>
-                    <option value="">Chọn quốc gia</option>
-                    <option value="VietNam">Việt Nam</option>
-                    <option value="USA">Hoa Kỳ</option>
-                    <option value="UK">Vương quốc Anh</option>
-                    <option value="Canada">Canada</option>
-                    <option value="Australia">Úc</option>
-                </select>
-
-                <input 
-                    type="email" 
-                    name="email" 
-                    placeholder="Email"
-                    required 
-                />
-
-                <input 
-                    type="password" 
-                    name="password" 
-                    placeholder="Password"
-                    required 
-                />
-
-                <button type="submit">Register</button>
-                <a href="#" onClick={onSwitch}>Login</a>
-            </article>
-
-            <aside className="welcome-message-register">
-                <h1>WELCOME!</h1>
-            </aside>
-        </form>
-    );
-}
-
-export default function Login_Register() {
-    const [isLogin, setIsLogin] = useState(true);
-
-    return (
-        <div className="login-register-container">
-            {isLogin ? (
-                <Login onSwitch={() => setIsLogin(false)} />
-            ) : (
-                <Register onSwitch={() => setIsLogin(true)} />
-            )}
+          {error && <p className="error-message">{error}</p>}
         </div>
-    );
->>>>>>> 07ea238762462acc42c3aefe5d5565e124693ec1
+      )}
+    </div>
+  );
 }
